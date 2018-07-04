@@ -50,20 +50,30 @@ int main (int argc, char *argv[]) {
 
     GError *err = NULL;
     gchar descr[] =
-            "rtspsrc location=rtsp://grubba.no-ip.org:8554/live ! "
-            "queue ! "
-            "rtph264depay ! "
-            "h264parse ! "
-            "video/x-h264, parsed=true, stream-format=byte-stream, alignment=au ! "
-            "appsink name=appsink drop=true emit-signals=true"
-            ;
+
+            "rtspsrc location=rtsp://grubba.gotdns.ch:8554/live ! "
+                      "queue ! "
+                      "rtph264depay ! "
+                      "h264parse ! "
+                      "video/x-h264, parsed=true, stream-format=byte-stream, alignment=au ! "
+                      "appsink name=appsink drop=true emit-signals=true"
+                      ;
+
+//    "! decodebin ! queue ! videoconvert ! autovideosink";
+//    "uridecodebin uri=rtsp://grubba.gotdns.ch:554/live ! autovideosink";
+
+//        "ximagesrc ! videoconvert ! autovideosink";
+
+    /* *Visual spectrum video: rtsp://grubba.gotdns.ch:554/live
+        Thermal video: rtsp://grubba.gotdns.ch:8554/live*/
+
     GstElement *pipeline = gst_parse_launch(descr, &err);
     if(err) {
         g_printerr("PARSE ERR: %i %i %s", err->code, err->domain, err->message);
         return -1;
     }
 
-    GstElement *appsink = gst_bin_get_by_name(GST_BIN(bin), "appsink");
+    GstElement *appsink = gst_bin_get_by_name(GST_BIN(pipeline), "appsink");
     g_signal_connect (appsink, "new-sample", G_CALLBACK (on_new_sample), NULL);
 
     gst_element_set_state (pipeline, GST_STATE_PLAYING);

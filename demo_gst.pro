@@ -3,9 +3,9 @@ TEMPLATE = subdirs
 INCLUDEPATH += common/
 
 SUBDIRS += \
-    pip \
+#    pip \
 #    record
 #    grab_frame \
-#    custom_nalu \
+    custom_nalu \
 #    record
 # test git 

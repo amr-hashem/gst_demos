@@ -58,7 +58,7 @@ int main (int argc, char *argv[]) {
 
     gst_object_unref (GST_OBJECT (pipeline));
 
-   //this is simple test for git
+
 
     return 0;
 }
